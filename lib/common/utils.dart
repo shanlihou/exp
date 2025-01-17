@@ -131,6 +131,11 @@ Future<bool> isEncryptFile(String path) async {
   List<int> encPwd = getEncPassword();
   RandomAccessFile file = await File(path).open(mode: FileMode.read);
   int fileLength = await file.length();
+
+  if (fileLength < encPwd.length) {
+    return false;
+  }
+
   await file.setPosition(fileLength - encPwd.length);
   Uint8List data = await file.read(encPwd.length);
   for (int i = 0; i < data.length; i++) {

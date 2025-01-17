@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class FileItem {
   final String path;
@@ -27,10 +28,13 @@ class FileItem {
               children: [
                 GestureDetector(
                     onTap: () => onTap(path),
-                    child: Text(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      basename(),
+                    child: SizedBox(
+                      width: 80.w,
+                      child: Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        basename(),
+                      ),
                     )),
                 GestureDetector(
                   onTap: () => onSelect(!isSelected),
