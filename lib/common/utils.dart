@@ -116,15 +116,19 @@ Future<void> encryptFile(String path) async {
 
 Future<void> encryptFileAndRename(String path) async {
   // 先读取出前64字节, 加密后写入前64字节
-  if (await isEncryptFile(path)) {
-    return;
+  try {
+    if (await isEncryptFile(path)) {
+      return;
+    }
+
+    await encryptFile(path);
+
+    // 重命名文件
+    String newPath = '$path.enc';
+    await File(path).rename(newPath);
+  } catch (e) {
+    print('encryptFileAndRename error: $e');
   }
-
-  await encryptFile(path);
-
-  // 重命名文件
-  String newPath = '$path.enc';
-  await File(path).rename(newPath);
 }
 
 Future<bool> isEncryptFile(String path) async {
